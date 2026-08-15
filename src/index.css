@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-headline: "Montserrat", sans-serif;
+  
+  --color-primary-fixed: #c2f425;
+  --color-primary-fixed-dim: #a8d700;
+  --color-on-primary-fixed: #161f00;
+  --color-surface: #121414;
+  --color-background: #121414;
+  --color-surface-container: #1e2020;
+  --color-surface-container-low: #1a1c1c;
+  --color-surface-container-high: #282a2b;
+  --color-surface-container-lowest: #0c0f0f;
+  --color-surface-container-highest: #333535;
+  --color-on-surface-variant: #c4c9ae;
+  --color-outline-variant: #444934;
+  --color-error-container: #93000a;
+
+  --breakpoint-xs: 425px;
+  --breakpoint-3xl: 1920px;
+}
+
+html, body, #root {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: #121414 !important;
+  background-color: #121414 !important;
+  color: #e2e2e2;
+  font-family: var(--font-sans);
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  overscroll-behavior-y: none !important;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  zoom: 1.033;
+}
+
+::selection {
+  background-color: #c2f425;
+  color: #121414;
+}
+
+::-moz-selection {
+  background-color: #c2f425;
+  color: #121414;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #121414;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #333535;
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #c2f425;
+}
+
+/* Scrollbar specific to the course grade panel */
+.grade-scrollbar {
+  overflow-y: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: #c2f425 #121414;
+}
+.grade-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  -webkit-appearance: none;
+}
+.grade-scrollbar::-webkit-scrollbar-track {
+  background: #121414;
+  border-radius: 9999px;
+  margin: 4px 0;
+}
+.grade-scrollbar::-webkit-scrollbar-thumb {
+  background: #c2f425;
+  border-radius: 9999px;
+  border: 2px solid #121414;
+  min-height: 40px;
+}
+.grade-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #d4ff4d;
+}
+
+.accent-border {
+  border-left: 4px solid #c2f425;
+}
+
+/* Animation utilities used across components */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.35s ease-out both;
+}
+
+/* Hide scrollbar utility (horizontal nav on mobile) */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Prevent iOS input zoom by keeping font-size >= 16px on small screens */
+@media (max-width: 640px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ===== Custom game cursors ===== */
+/* Fallback stacked so browsers that can't load the PNG still show a default */
+html, body {
+  cursor: url('/cursors/padrao.png') 4 4, auto;
+}
+
+/* Pointer (region 1 - "clique da mão") — links, buttons, clicáveis */
+a, button, select, [role="button"], input[type="submit"], input[type="button"], input[type="checkbox"], input[type="radio"], label[for],
+.cursor-pointer, .cursor-hand, .cursor-link, [href], summary {
+  cursor: url('/cursors/mao.png') 10 4, pointer;
+}
+
+/* Force hand cursor on all children of clickable elements (text inside buttons) */
+button *, a *, select *, summary *, [role="button"] *, [href] *,
+button * :where(p, span, li, h1, h2, h3, h4, h5, h6, strong, em, small, label),
+a * :where(p, span, li, h1, h2, h3, h4, h5, h6, strong, em, small, label) {
+  cursor: url('/cursors/mao.png') 10 4, pointer !important;
+}
+
+/* Drag / grab states (region 1 - "clique da mão") */
+.cursor-grab {
+  cursor: url('/cursors/mao.png') 10 4, grab;
+}
+.cursor-grabbing {
+  cursor: url('/cursors/mao.png') 10 4, grabbing;
+}
+
+/* Text entry (I-beam com traço em cima e embaixo) */
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="range"]), textarea, select:not([data-cursor="pointer"]), [contenteditable="true"], .cursor-text {
+  cursor: url('/cursors/text.png') 7 16, text;
+}
+
+/* Texto selecionável (parágrafos, títulos, listas) também usa o I-beam */
+body :where(p, span, li, td, th, dt, dd, h1, h2, h3, h4, h5, h6, label, blockquote, figcaption, small, strong, em, time, code, pre):not(:has(a, button, [role="button"], .cursor-pointer, input, textarea)) {
+  cursor: url('/cursors/text.png') 7 16, text;
+}
+
+/* Precise selection (crosshair) */
+.cursor-crosshair, .cursor-cell {
+  cursor: url('/cursors/precisao.png') 15 16, crosshair;
+}
+
+/* Disabled / forbidden */
+.cursor-not-allowed, [disabled], [aria-disabled="true"], button:disabled, input:disabled {
+  cursor: url('/cursors/notallowed.png') 15 16, not-allowed;
+}
+
+/* Move */
+.cursor-move, [draggable="true"] {
+  cursor: url('/cursors/move.png') 15 16, move;
+}
+
+/* Resize directions */
+.cursor-ns-resize, .cursor-row-resize {
+  cursor: url('/cursors/resize-v.png') 7 16, ns-resize;
+}
+.cursor-ew-resize, .cursor-col-resize {
+  cursor: url('/cursors/resize-h.png') 16 6, ew-resize;
+}
+.cursor-nesw-resize, .cursor-nwse-resize {
+  cursor: url('/cursors/resize-d.png') 15 16, nesw-resize;
+}
+
+/* Busy / progress */
+.cursor-wait, .cursor-progress {
+  cursor: url('/cursors/loading.png') 15 16, wait;
+}
+
+/* Default fallback overrides Tailwind's default */
+.cursor-default {
+  cursor: url('/cursors/padrao.png') 4 4, default !important;
+}
+
+/* Small screens tweaks for safe areas (notches) */
+@supports (padding: env(safe-area-inset-top)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+

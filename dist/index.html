@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR" style="background-color: #121414 !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; height: 100% !important; width: 100% !important;">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0" />
+    <meta name="theme-color" content="#121414" />
+    <meta name="description" content="PrismaCursos - Plataforma de cursos de idiomas e tecnologia" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <title>PrismaCursos</title>
+    <script type="module" crossorigin src="/assets/index-B1VeZg3-.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CWb_t9dw.css">
+  </head>
+  <body style="background-color: #121414 !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; height: 100% !important; width: 100% !important; -webkit-text-size-adjust: 100%;">
+    <div id="root" style="background-color: #121414 !important; height: 100% !important; width: 100% !important;"></div>
+    
+    <!-- Preloader nativo (some quando o React monta) -->
+    <div id="prisma-preloader" style="position:fixed;inset:0;background:radial-gradient(circle at center,#1a1c1c 0%,#121414 70%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:34px;z-index:9999;transition:opacity .5s ease;">
+      
+      <!-- Glow ambiental atrás -->
+      <div style="position:absolute;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,#c2f42510 0%,transparent 70%);animation:prisma-breathe 3.5s ease-in-out infinite;pointer-events:none;"></div>
+      
+      <!-- Logo com glow pulsante -->
+      <img alt="Prisma Logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCozAWHCV-m6qH2nsaVf7y8wN4DVkYSyG_92bFJYIBxDHILa2ECAyFb9V9PASlNZuHlb8Ibk5_R9CcdnkKclFHx_FL7e72-rT24vkSw3hjMBy3qZaXScPFUhW2W61uFcxIYQZpxdtrYU5oKRypxrhrFd2xLoVHD0LGWtqT20EwoFHacY_XF-IJe1CcHoc-qZDmxtZ_Q0D5tWXcHUvPMKRdNwBJisATR00RhqaQ-R3N9uopH9EvcH7eCYf3M1kmpqnrOpsajm0QGL3A" style="height:54px;width:auto;object-fit:contain;animation:prisma-pulse 2.2s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(194,244,37,0.35));position:relative;z-index:2;" />
+      
+      <!-- Ring circular com porcentagem no centro -->
+      <div style="position:relative;width:92px;height:92px;z-index:2;">
+        <svg width="92" height="92" viewBox="0 0 96 96" style="transform:rotate(-90deg);">
+          <circle cx="48" cy="48" r="42" fill="none" stroke="#444934" stroke-width="2.5" />
+          <circle id="prisma-ring" cx="48" cy="48" r="42" fill="none" stroke="#c2f425" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="263.89" stroke-dashoffset="263.89" style="transition:stroke-dashoffset .15s ease;filter:drop-shadow(0 0 6px rgba(194,244,37,0.45));" />
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;color:#c2f425;font-weight:800;line-height:1;">
+          <span id="prisma-percent" style="font-size:24px;letter-spacing:.5px;">0</span><span style="font-size:12px;color:#c4c9ae;margin-left:2px;">%</span>
+        </div>
+      </div>
+      
+      <!-- Status / label -->
+      <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:5px;color:#c4c9ae;text-transform:uppercase;animation:prisma-fade 2s ease-in-out infinite;z-index:2;">
+        Carregando
+      </div>
+      
+      <!-- Barra de progresso com shimmer -->
+      <div style="position:relative;width:220px;height:2px;background:#282a2b;border-radius:9999px;overflow:hidden;z-index:2;">
+        <div id="prisma-bar" style="position:absolute;left:0;top:0;height:100%;width:0%;background:linear-gradient(90deg,#a8d700,#c2f425);border-radius:9999px;transition:width .15s ease;"></div>
+        <div id="prisma-shimmer" style="position:absolute;top:0;left:0;height:100%;width:40px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);border-radius:9999px;animation:prisma-shimmer 1.6s linear infinite;"></div>
+      </div>
+      
+      <style>
+        @keyframes prisma-pulse { 0%,100% { opacity:.7; transform:translateY(0); } 50% { opacity:1; transform:translateY(-2px); } }
+        @keyframes prisma-breathe { 0%,100% { opacity:.4; transform:scale(1); } 50% { opacity:.8; transform:scale(1.08); } }
+        @keyframes prisma-fade { 0%,100% { opacity:.4; } 50% { opacity:1; } }
+        @keyframes prisma-shimmer { 0% { transform:translateX(-40px); } 100% { transform:translateX(220px); } }
+      </style>
+    </div>
+    
+    <script>
+      // Contagem da porcentagem (0 a 100%) — sincroniza ring + barra + número
+      (function() {
+        var p = 0;
+        var CIRC = 263.89; // 2 * π * 42
+        var pct = document.getElementById('prisma-percent');
+        var bar = document.getElementById('prisma-bar');
+        var ring = document.getElementById('prisma-ring');
+        var shimmer = document.getElementById('prisma-shimmer');
+        var timer = setInterval(function() {
+          // Avança mais rápido no início, desacelera no fim
+          var inc = p < 60 ? Math.random() * 7 + 3 : Math.random() * 2.5 + 0.8;
+          p = Math.min(100, p + inc);
+          var v = Math.floor(p);
+          pct.textContent = v;
+          bar.style.width = v + '%';
+          ring.style.strokeDashoffset = (CIRC * (1 - p / 100)).toFixed(2);
+          if (p >= 100) {
+            clearInterval(timer);
+            // Esconde o shimmer quando completa
+            if (shimmer) shimmer.style.opacity = '0';
+          }
+        }, 85);
+      })();
+    </script>
+    
+  </body>
+</html>
+
